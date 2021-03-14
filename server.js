@@ -24,6 +24,32 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+app.get("/api/timestamp/", (req, res) => {
+  res.json({unix: Date.now(), utc: Date()});
+})
+
+app.get("/api/timestamp/:date", function (req, res, next) {
+  console.log(req.params.date);
+  if (req.params.date > 9999){
+    var utcS =  new Date(Number(req.params.date)).toUTCString();
+    console.log("utcs is" + utcS);
+    res.json({'unix': Number(req.params.date), 'utc': utcS});
+  } else if (new Date(req.params.date).toString() === "Invalid Date"){
+      res.json({'error': "Invalid Date"});
+  } else {
+    var convertedDate = new Date(req.params.date);
+    res.json({'unix': convertedDate.valueOf(), 'utc': convertedDate.toUTCString()});
+    }
+  
+});
+
+
+app.get("/now", function(req, res, next){
+  req.time = new Date().toString();
+  next();
+  }, function(req, res){
+    res.json({time: req.time});
+  });
 
 
 // listen for requests :)
