@@ -29,15 +29,16 @@ app.get("/api/timestamp/", (req, res) => {
 })
 
 app.get("/api/timestamp/:date", function (req, res, next) {
-  console.log(req.params.date);
-  if (req.params.date > 9999){
-    var utcS =  new Date(Number(req.params.date)).toUTCString();
+  var date = req.params.date;
+  console.log(date);
+  if (date > 9999 && !isNaN(date)){
+    var utcS =  new Date(Number(date)).toUTCString();
     console.log("utcs is" + utcS);
-    res.json({'unix': Number(req.params.date), 'utc': utcS});
-  } else if (new Date(req.params.date).toString() === "Invalid Date"){
+    res.json({'unix': Number(date), 'utc': utcS});
+  } else if (new Date(date).toString() === "Invalid Date"){
       res.json({'error': "Invalid Date"});
   } else {
-    var convertedDate = new Date(req.params.date);
+    var convertedDate = new Date(date);
     res.json({'unix': convertedDate.valueOf(), 'utc': convertedDate.toUTCString()});
     }
   
