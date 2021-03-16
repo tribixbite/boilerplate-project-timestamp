@@ -29,7 +29,7 @@ app.get("/api/timestamp/", (req, res) => {
 })
 
 app.get("/api/timestamp/:date", function (req, res, next) {
-  var date = req.params.date;
+  let date = req.params.date;
   console.log(date);
   if (date > 9999 && !isNaN(date)){
     var utcS =  new Date(Number(date)).toUTCString();
